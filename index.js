@@ -1,4 +1,5 @@
-import { getContext, extension_settings, saveSettingsDebounced, renderExtensionTemplateAsync } from '../../../extensions.js';
+// 1. saveSettingsDebounced를 import 목록에서 제거 (1.17에서 제공 안함)
+import { getContext, extension_settings, renderExtensionTemplateAsync } from '../../../extensions.js';
 import { eventSource, event_types, saveChat } from '../../../../script.js';
 
 const EXT_NAME = 'SillyTavern-MangTaegi';
@@ -77,7 +78,6 @@ function bindEvents(parent) {
             parent.querySelectorAll('.mt-tab, .mt-tab-content').forEach(el => el.classList.remove('active'));
             e.target.classList.add('active');
             
-            // 안전한 문자열 결합 방식으로 수정하여 SyntaxError 방지
             const contentElement = document.getElementById('mt-content-' + target);
             if (contentElement) contentElement.classList.add('active');
         });
@@ -85,7 +85,11 @@ function bindEvents(parent) {
 
     parent.querySelector('#mt-save-settings')?.addEventListener('click', () => {
         settings.apiKey = parent.querySelector('#mt-api-key').value;
-        saveSettingsDebounced();
+        
+        // 2. saveSettingsDebounced() 대신 1.17에서 안전하게 동작하는 getContext().saveSettings() 사용
+        const context = getContext();
+        context.saveSettings();
+        
         alert('설정이 저장되었습니다.');
     });
 }
