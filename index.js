@@ -1,4 +1,6 @@
 // 당신의 망태기 v2.0
+import { extension_settings, getContext } from '../../../extensions.js';
+import { saveSettingsDebounced, eventSource, event_types } from '../../../../script.js';
 const EXT_NAME = 'SillyTavern-MangTaegi';
 
 const defaultSettings = {
@@ -11,7 +13,7 @@ let settings = {};
 
 // ─── 초기화 ──────────────────────────────────────────────────
 async function mangInit() {
-    const extSettings = window.extension_settings;
+    const extSettings = extension_settings;
     if (!extSettings) {
         setTimeout(mangInit, 1000);
         return;
@@ -140,8 +142,8 @@ function openMainPanel() {
     panel.on('click', '#mt-save-btn', () => {
         settings.apiKey = $('#mt-api-key').val();
         settings.outputLanguage = $('#mt-lang').val();
-        if (window.extension_settings) window.extension_settings[EXT_NAME] = settings;
-        if (window.saveSettingsDebounced) window.saveSettingsDebounced();
+        if (extension_settings) extension_settings[EXT_NAME] = settings;
+        if (window.saveSettingsDebounced) saveSettingsDebounced();
         showToast('✅ 저장됨');
     });
 
@@ -438,8 +440,8 @@ function getSTContext() {
 }
 
 function saveNPCData() {
-    if (window.extension_settings) window.extension_settings[EXT_NAME] = settings;
-    if (window.saveSettingsDebounced) window.saveSettingsDebounced();
+    if (extension_settings) extension_settings[EXT_NAME] = settings;
+    if (window.saveSettingsDebounced) saveSettingsDebounced();
 }
 
 function loadSettingsToUI() {
