@@ -174,15 +174,42 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* 추가재미나이 PC와 모바일 모두에서 상단 여백을 강제로 확보 */
+/* 재미나이 추가 기존 .mt-panel 설정을 덮어씌워 유연하게 변경 */
 .mt-panel {
-    top: 60px !important;      /* 화면 천장에서 60px 아래로 강제 고정 */
-    position: relative !important; /* 위치 계산 방식 유연하게 변경 */
-    margin-bottom: 20px !important; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px; /* 패딩을 살짝 늘려 터치 영역 확보 */
+    color: var(--SmartThemeBodyColor);
+    box-sizing: border-box;
 }
 
-/* 창이 너무 길어져서 화면 아래로 나가는 것 방지 */
-.mt-npc-list {
-    max-height: 50vh !important; /* 기기 높이의 절반만 차지하게 제한 */
-    overflow-y: auto !important;
+/* 모바일 전용 대응 (화면 가로가 768px 이하일 때) */
+@media screen and (max-width: 768px) {
+    /* 전체 패널의 상단 여백과 최대 높이 조절 */
+    .mt-panel {
+        margin-top: 50px !important; /* 실리태번 상단바 공간 확보 */
+        padding-top: 15px !important;
+        max-height: 85vh !important; /* 화면 전체를 다 쓰지 않도록 제한 */
+        overflow-y: hidden; /* 패널 자체는 고정 */
+    }
+
+    /* 리스트 영역을 더 짧게 조절하여 스크롤 유도 */
+    .mt-npc-list {
+        max-height: 45vh !important; /* 모바일에서는 리스트를 더 짧게 */
+        -webkit-overflow-scrolling: touch; /* iOS 등에서 부드러운 스크롤 */
+    }
+
+    /* 입력창이나 버튼이 너무 작지 않게 조절 */
+    .mt-input, .mt-select, .mt-btn-save, .mt-btn-scan {
+        min-height: 40px; /* 손가락 터치하기 편한 최소 높이 */
+        font-size: 16px !important; /* 모바일 자동 줌 방지 */
+    }
+}
+
+/* 토스트 메시지 위치 조절 (모바일 자판에 가리지 않게) */
+@media screen and (max-width: 768px) {
+    #mt-toast {
+        bottom: 120px; /* 자판이나 하단바 위로 올림 */
+    }
 }
