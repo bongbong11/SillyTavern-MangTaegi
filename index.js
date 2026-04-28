@@ -541,3 +541,24 @@ function showToast(msg) {
 
 export async function init() { await mangInit(); }
 setTimeout(mangInit, 500);
+
+/* 추가 잘림 기본 설정 (PC/모바일 공통) */
+.mt-panel {
+    width: 90vw;
+    max-width: 500px; /* PC에서는 가로가 500px로 고정되어 보기 좋습니다 */
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* 📱 모바일(화면 너비 768px 이하)에서만 적용 */
+@media screen and (max-width: 768px) {
+    .mt-panel {
+        margin-top: 80px !important; /* 모바일에서만 머리 안 잘리게 80px 내림 */
+        max-height: 80vh !important; /* 화면을 벗어나지 않게 높이 제한 */
+        overflow-y: auto !important; /* 내용이 많으면 창 안에서 스크롤 */
+    }
+    
+    .mt-npc-list {
+        max-height: 45vh !important; /* 리스트 영역도 모바일에 맞춰 조절 */
+    }
+}
