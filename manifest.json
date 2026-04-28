@@ -1,10 +1,9 @@
 {
-    "display_name": "MangTaegi (당신의 망태기)",
     "name": "SillyTavern-MangTaegi",
+    "display_name": "MangTaegi (당신의 망태기)",
     "version": "1.0.0",
     "description": "Automatically collect NPC data and create profiles during roleplay.",
-    "js": "index.js",
-    "css": "style.css",
     "author": "bongbong11",
-    "homepage": "https://github.com/bongbong11/SillyTavern-MangTaegi"
+    "entrypoint": "index.js",
+    "source": "https://github.com/bongbong11/SillyTavern-MangTaegi"
 }
