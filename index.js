@@ -119,5 +119,4 @@ function renderNPCList() {
             </div>
         `;
     }).join('');
-}
 // <-- 맨 밑에 있던 불필요한 } 제거 완료
