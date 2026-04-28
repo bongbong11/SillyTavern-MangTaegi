@@ -297,3 +297,5 @@ function showToast(msg) {
     clearTimeout(t.data('timer'));
     t.data('timer', setTimeout(() => t.removeClass('show'), 2200));
 }
+// 자동 실행
+init().catch(err => console.error('[망태기] 초기화 오류:', err));
