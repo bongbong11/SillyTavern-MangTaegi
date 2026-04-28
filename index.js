@@ -1,7 +1,6 @@
 import { getContext, extension_settings, saveSettingsDebounced, renderExtensionTemplateAsync } from '../../../extensions.js';
 import { eventSource, event_types, saveChat } from '../../../../script.js';
 
-// 시스템 내부 식별자 (영문 통일)
 const EXT_NAME = 'SillyTavern-MangTaegi';
 
 const defaultSettings = {
@@ -18,18 +17,15 @@ async function init() {
     }
     settings = extension_settings[EXT_NAME];
 
-    // UI 구성요소 생성
     addPanelButton();
     injectPanel();
 
-    // 실리태번 표준 확장 메뉴 연결
     const container = await renderExtensionTemplateAsync(EXT_NAME, 'mangtaegi', {});
     
-    // 이벤트 바인딩
     bindEvents(document.body);
     bindExtensionEvents(container);
 
-    console.log('[MangTaegi] Extension initialized without errors.');
+    console.log('[MangTaegi] Initialized');
 }
 
 function addPanelButton() {
@@ -37,11 +33,9 @@ function addPanelButton() {
     const btn = document.createElement('div');
     btn.id = 'mt-sidebar-btn';
     btn.className = 'fa-solid fa-box-archive system_button';
-    btn.title = 'MangTaegi (당신의 망태기)';
-    
+    btn.title = 'MangTaegi';
     const sidebar = document.getElementById('external_links_view') || document.querySelector('.side-buttons');
     if (sidebar) sidebar.appendChild(btn);
-
     btn.addEventListener('click', () => {
         document.getElementById('mt-main-panel')?.classList.toggle('show');
     });
@@ -57,7 +51,7 @@ function injectPanel() {
         </div>
         <div class="mt-body">
             <div class="mt-tabs">
-                <div class="mt-tab active" data-tab="list">NPC 목록</div>
+                <div class="mt-tab active" data-tab="list">목록</div>
                 <div class="mt-tab" data-tab="settings">설정</div>
             </div>
             <div id="mt-content-list" class="mt-tab-content active">
@@ -65,7 +59,7 @@ function injectPanel() {
             </div>
             <div id="mt-content-settings" class="mt-tab-content">
                 <input type="password" id="mt-api-key" class="mt-input" placeholder="API Key 입력">
-                <button id="mt-save-settings" class="mt-btn-primary">설정 저장</button>
+                <button id="mt-save-settings" class="mt-btn-primary">저장</button>
             </div>
         </div>
     </div>`;
@@ -82,23 +76,23 @@ function bindEvents(parent) {
             const target = e.target.dataset.tab;
             parent.querySelectorAll('.mt-tab, .mt-tab-content').forEach(el => el.classList.remove('active'));
             e.target.classList.add('active');
-            parent.querySelector(\`#mt-content-\${target}\`)?.classList.add('active');
+            // 에러 방지를 위해 문자열 결합 방식으로 수정
+            const contentId = 'mt-content-' + target;
+            parent.querySelector('#' + contentId)?.classList.add('active');
         });
     });
 
     parent.querySelector('#mt-save-settings')?.addEventListener('click', () => {
         settings.apiKey = parent.querySelector('#mt-api-key').value;
         saveSettingsDebounced();
-        alert('설정이 저장되었습니다.');
+        alert('저장됨');
     });
 }
 
 function bindExtensionEvents(container) {
     container.querySelector('#mt-quick-save')?.addEventListener('click', () => {
-        const npcName = container.querySelector('#mt-quick-input').value;
-        if (npcName) {
-            container.querySelector('#mt-quick-log').innerText = npcName + ' 저장 완료!';
-        }
+        const val = container.querySelector('#mt-quick-input').value;
+        if (val) container.querySelector('#mt-quick-log').innerText = val + ' 완료';
     });
 }
 
