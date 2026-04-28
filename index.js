@@ -1,6 +1,5 @@
 import { extension_settings, getContext } from '../../../../scripts/extensions.js';
 import { saveSettingsDebounced, eventSource, event_types } from '../../../../scripts/script.js';
-
 const EXT_NAME = 'SillyTavern-MangTaegi';
 
 const defaultSettings = {
