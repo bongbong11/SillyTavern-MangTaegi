@@ -255,15 +255,15 @@ function openNPCDetail(npcId) {
     }
 
     const popup = $(`
-    <div id="mt-detail-popup" style="
-        position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-        width:320px; max-height:75vh; overflow-y:auto;
-        background:var(--SmartThemeBlurTintColor, #1e1e2e);
-        border:1px solid var(--SmartThemeBorderColor, #555);
-        border-radius:12px; z-index:10001; padding:16px;
-        box-shadow:0 16px 48px rgba(0,0,0,0.7);
-        font-family:inherit;
-    ">
+<div id="mt-detail-popup" style="
+    position:fixed; top:80px; left:50%; transform:translateX(-50%); /* 수정: 중앙 정렬 해제 */
+    width:320px; max-height:calc(100vh - 120px); overflow-y:auto; /* 수정: 높이 제한 및 스크롤 */
+    background:var(--SmartThemeBlurTintColor, #1e1e2e);
+    border:1px solid var(--SmartThemeBorderColor, #555);
+    border-radius:12px; z-index:10001; padding:16px;
+    box-shadow:0 16px 48px rgba(0,0,0,0.7);
+    font-family:inherit;
+">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
             <div>
                 <div style="font-size:1.1em;font-weight:700;">${npc.name}</div>
