@@ -174,23 +174,15 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* 추가 잘림 기본 설정 (PC/모바일 공통) */
+/* 추가재미나이 PC와 모바일 모두에서 상단 여백을 강제로 확보 */
 .mt-panel {
-    width: 90vw;
-    max-width: 500px; /* PC에서는 가로가 500px로 고정되어 보기 좋습니다 */
-    margin: 0 auto;
-    box-sizing: border-box;
+    top: 60px !important;      /* 화면 천장에서 60px 아래로 강제 고정 */
+    position: relative !important; /* 위치 계산 방식 유연하게 변경 */
+    margin-bottom: 20px !important; 
 }
 
-/* 📱 모바일(화면 너비 768px 이하)에서만 적용 */
-@media screen and (max-width: 768px) {
-    .mt-panel {
-        margin-top: 80px !important; /* 모바일에서만 머리 안 잘리게 80px 내림 */
-        max-height: 80vh !important; /* 화면을 벗어나지 않게 높이 제한 */
-        overflow-y: auto !important; /* 내용이 많으면 창 안에서 스크롤 */
-    }
-    
-    .mt-npc-list {
-        max-height: 45vh !important; /* 리스트 영역도 모바일에 맞춰 조절 */
-    }
+/* 창이 너무 길어져서 화면 아래로 나가는 것 방지 */
+.mt-npc-list {
+    max-height: 50vh !important; /* 기기 높이의 절반만 차지하게 제한 */
+    overflow-y: auto !important;
 }
