@@ -2,7 +2,8 @@
 // SillyTavern Extension - NPC 자동 수집 및 프로필 생성
 
 // 실리태번 시스템 파일 로드 (경로 수정 완료)
-import { getContext, extension_settings, saveSettingsDebounced, renderExtensionTemplateAsync } from '../../../extensions.js';
+// 수정 후 (Debounced 글자만 삭제)
+import { getContext, extension_settings, saveSettings, renderExtensionTemplateAsync } from '../../../extensions.js';
 import { eventSource, event_types, saveChat } from '../../../../script.js';
 
 const EXT_NAME = '당신의망태기';
