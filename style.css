@@ -1,97 +1,175 @@
-/* 1. 전체 컨테이너 및 섹션 */
-.mt-container {
+/* 당신의 망태기 */
+.mt-panel {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    color: var(--mainColor);
+    gap: 10px;
+    padding: 4px;
+    color: var(--SmartThemeBodyColor);
+}
+
+.mt-header {
+    font-size: 1.1em;
+    font-weight: bold;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .mt-section {
     display: flex;
     flex-direction: column;
+    gap: 6px;
+}
+
+.mt-label {
+    font-size: 0.8em;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mt-input, .mt-select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mt-btn-save {
+    margin-top: 4px;
+    width: 100%;
+}
+
+.mt-btn-scan {
+    width: 100%;
+    background: rgba(193, 127, 90, 0.2) !important;
+    border-color: rgba(193, 127, 90, 0.5) !important;
+    color: #c17f5a !important;
+}
+
+.mt-btn-scan:hover {
+    background: rgba(193, 127, 90, 0.35) !important;
+}
+
+.mt-npc-list {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 2px;
 }
 
-/* 2. NPC 목록 아이템 스타일 (기획안 3번 색상 구분 반영) */
-.npc-item {
-    background: rgba(0, 0, 0, 0.3);
+.mt-npc-card {
+    background: rgba(0,0,0,0.25);
     border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 12px;
+    cursor: default;
+    transition: background 0.15s;
+    border: 1px solid rgba(255,255,255,0.07);
 }
 
-.npc-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
+.mt-npc-card:hover {
+    background: rgba(255,255,255,0.06);
 }
 
-/* 관계별 테두리 색상 (기획안 3번) */
-.npc-rel-both { border-left: 5px solid #ffdf00 !important; } /* 둘 다 알면 노랑 */
-.npc-rel-char { border-left: 5px solid #2ecc71 !important; } /* 캐릭터만 초록 */
-.npc-rel-user { border-left: 5px solid #3498db !important; } /* 유저만 파랑 */
-.npc-rel-none { border-left: 5px solid #888888 !important; } /* 아예 남이면 회색 */
-
-/* 3. NPC 상세 정보 텍스트 (기획안 5번 반영) */
-.npc-info-header {
+.mt-npc-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
-.npc-name {
-    font-weight: bold;
-    font-size: 1.1em;
+.mt-npc-name {
+    font-weight: 600;
+    font-size: 0.95em;
 }
 
-.npc-tmi {
-    font-size: 0.85em;
+.mt-npc-meta {
+    font-size: 0.78em;
+    color: #999;
+}
+
+.mt-npc-occ {
+    font-size: 0.78em;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+.mt-npc-desc {
+    font-size: 0.82em;
     color: #bbb;
-    margin-top: 5px;
-    line-height: 1.4;
+    line-height: 1.45;
+    margin-bottom: 8px;
 }
 
-/* 4. 채팅창 하단 수집 버튼 (기획안 7번) */
-#mt-collect-btn {
+.mt-npc-actions {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
+}
+
+.mt-stars {
+    display: flex;
+    gap: 3px;
+}
+
+.mt-star {
+    font-size: 14px;
     cursor: pointer;
-    transition: 0.2s;
-    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255,255,255,0.2);
+    user-select: none;
+    transition: color 0.12s;
 }
 
-#mt-collect-btn:hover {
-    background: var(--btn-hover-color, rgba(255, 172, 51, 0.3));
-    color: #ffac33;
+.mt-star.active {
+    color: #c17f5a;
 }
 
-/* 5. 상세 프로필 팝업용 (필요시 사용) */
-.mt-popup {
-    background: var(--bg-color);
-    border: 2px solid var(--border-color);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+.mt-star:hover {
+    color: #c17f5a;
 }
 
-/* 6. 설정창 입력 박스 및 버튼 */
-.mt-input-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+.mt-pin-btn {
+    font-size: 0.75em;
+    padding: 3px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
 }
 
-.text_node.mt-input {
-    flex: 1;
-    background: rgba(0,0,0,0.4);
-    border: 1px solid var(--border-color);
+.mt-pin-btn:hover {
+    border-color: #c17f5a;
+    color: #c17f5a;
+}
+
+.mt-pin-btn.pinned {
+    background: rgba(193,127,90,0.2);
+    border-color: #c17f5a;
+    color: #c17f5a;
+}
+
+/* 토스트 */
+#mt-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(30,30,30,0.95);
     color: white;
-    padding: 5px 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    z-index: 99999;
+    opacity: 0;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+}
+
+#mt-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
