@@ -1,10 +1,10 @@
 {
-    "display_name": "당신의 망태기",
+    "display_name": "MangTaegi",
     "name": "SillyTavern-MangTaegi",
     "version": "1.2.0",
-    "description": "NPC 자동 수집 확장",
+    "description": "NPC auto collection extension",
     "js": "index.js",
     "css": "style.css",
-    "author": "봉봉",
+    "author": "bongbong",
     "homepage": "https://github.com/bongbong11/SillyTavern-MangTaegi"
 }
