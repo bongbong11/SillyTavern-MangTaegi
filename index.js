@@ -1,18 +1,16 @@
 import { getContext, extension_settings, renderExtensionTemplateAsync } from '../../../extensions.js';
 import { eventSource, event_types, saveChat } from '../../../../script.js';
 
-const EXT_NAME = '당신의 망태기'; // ← json과 반드시 동일
+const EXT_NAME = 'MangTaegi';
 
 function init() {
-    console.log('[망태기] 로딩 시도...');
+    console.log('[MangTaegi] init');
 
-    // extension_settings 자체가 없을 경우 방어
     if (typeof extension_settings !== 'object') {
-        console.error('[망태기] extension_settings 없음');
+        console.error('[MangTaegi] extension_settings missing');
         return;
     }
 
-    // 확장 설정 초기화
     if (!extension_settings[EXT_NAME]) {
         extension_settings[EXT_NAME] = {
             apiType: 'express',
@@ -43,7 +41,7 @@ function addPanelButton() {
         display: block;
     `;
 
-    btn.title = '당신의 망태기';
+    btn.title = 'MangTaegi';
 
     btn.onclick = () => {
         const panel = document.getElementById('mangtaegi-panel');
@@ -73,11 +71,11 @@ function injectPanel() {
         box-shadow:0 4px 15px rgba(0,0,0,0.3);
     ">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h3 style="margin:0; color:#c17f5a;">📦 당신의 망태기</h3>
+            <h3 style="margin:0; color:#c17f5a;">📦 MangTaegi</h3>
             <span id="mb-close" style="cursor:pointer; font-size:28px;">&times;</span>
         </div>
         <hr>
-        <div id="mb-content">정상적으로 로드되었습니다!</div>
+        <div id="mb-content">Loaded successfully.</div>
     </div>
     `;
 
@@ -100,11 +98,10 @@ function injectPanel() {
     }
 }
 
-// DOM 준비 후 실행
 $(document).ready(() => {
     try {
         init();
     } catch (e) {
-        console.error('[망태기] init 실패:', e);
+        console.error('[MangTaegi] init failed:', e);
     }
 });
