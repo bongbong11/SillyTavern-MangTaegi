@@ -363,10 +363,7 @@ function addCollectButton() {
 async function collectFromLastMessage() {
     const ctx = getContext();
     if (!ctx?.chat || ctx.chat.length === 0) { showToast('채팅 기록이 없어요'); return; }
-
-    const profile = getSelectedProfile();
-    if (!profile) { showToast('⚙️ 확장 설정에서 프로필을 선택해주세요'); return; }
-
+    
     // 수집 중 애니메이션
     const btn = $('#mt-collect-btn');
     let frame = 0;
@@ -383,7 +380,7 @@ async function collectFromLastMessage() {
         const userName = ctx.name1 || 'user';
         const text = `${lastMsg.name || charName}: ${lastMsg.mes}`;
 
-        const result = await callWithProfile(profile, buildPrompt(text, charName, userName, settings.outputLanguage));
+        const result = await callWithProfile(null, buildPrompt(text, charName, userName, settings.outputLanguage));
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
@@ -405,8 +402,6 @@ async function collectFromLastMessage() {
 // ─── 전체 스캔 ───────────────────────────────────────────────
 async function scanAll() {
     const ctx = getContext();
-    const profile = getSelectedProfile();
-    if (!profile) { showToast('⚙️ 확장 설정에서 프로필을 선택해주세요'); return; }
     if (!ctx?.chat || ctx.chat.length === 0) { showToast('채팅 기록이 없어요'); return; }
 
     $('#mt-scan-btn').prop('disabled', true).text('⏳ 스캔 중...');
@@ -417,7 +412,7 @@ async function scanAll() {
             `${m.name || (m.is_user ? userName : charName)}: ${m.mes}`
         ).join('\n');
 
-        const result = await callWithProfile(profile, buildPrompt(chatText, charName, userName, settings.outputLanguage));
+        const result = await callWithProfile(null, buildPrompt(chatText, charName, userName, settings.outputLanguage));
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
@@ -440,48 +435,9 @@ function getSelectedProfile() {
 }
 
 async function callWithProfile(profile, prompt) {
-    // ST Connection Manager 프로필에서 API 정보 추출
-    const apiUrl = profile.api_url_text || profile.openai_api_url || '';
-    const apiKey = profile.api_key_openai || profile.api_key || '';
-    const model = profile.openai_model || profile.model || 'gemini-2.0-flash';
-
-    if (!apiUrl && !apiKey) throw new Error('프로필에 API 정보가 없어요');
-
-    // Gemini 직접 호출
-    if (apiKey && !apiUrl) {
-        const resp = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                    generationConfig: { temperature: 0.5, maxOutputTokens: 2000 }
-                })
-            }
-        );
-        if (!resp.ok) throw new Error(`API 오류 ${resp.status}`);
-        const data = await resp.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    }
-
-    // OpenAI 호환 API 호출
-    const resp = await fetch(`${apiUrl}/chat/completions`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            ...(apiKey ? { 'Authorization': `Bearer ${apiKey}` } : {})
-        },
-        body: JSON.stringify({
-            model,
-            messages: [{ role: 'user', content: prompt }],
-            temperature: 0.5,
-            max_tokens: 2000,
-        })
-    });
-    if (!resp.ok) throw new Error(`API 오류 ${resp.status}`);
-    const data = await resp.json();
-    return data.choices?.[0]?.message?.content || '';
+    const ctx = getContext();
+    const result = await ctx.generateRaw(prompt, null, false, false, '', 0);
+    return result || '';
 }
 
 // ─── 추출 프롬프트 ───────────────────────────────────────────
