@@ -174,46 +174,39 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* 패널 본체: 어떤 상황에서도 상단 여백 60px를 사수함 */
+/* 재미나이 패널 본체: 기준점을 상단에 고정 */
 .mt-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 12px !important;
     color: var(--SmartThemeBodyColor);
-    box-sizing: border-box;
+    box-sizing: border-box !important;
+
+    /* 핵심: 중앙 정렬을 해제하고 위에서부터 시작하게 함 */
+    position: relative !important;
+    top: 0 !important; 
+    margin-top: 20px !important; /* 상단바와의 최소 간격 */
     
-    /* 핵심 수정: 상단 여백 확보 방식 변경 */
-    margin-top: 60px !important; 
-    position: static !important; /* 부모 요소의 흐름을 따르되 마진으로 밀기 */
+    /* 패널 자체가 화면 높이를 넘지 않게 설정 */
+    max-height: 80vh !important; 
+    overflow-y: auto !important; /* 패널 전체에 스크롤 생성 */
 }
 
-/* 리스트 영역: 창 크기에 맞춰 유연하게 변함 */
+/* NPC 리스트 영역: 패널 안에서 또 한 번 높이 제한 */
 .mt-npc-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    /* 핵심 수정: 고정 px 대신 vh를 써서 창이 작아지면 같이 작아지게 함 */
-    max-height: 50vh !important; 
-    min-height: 100px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    max-height: 300px !important; /* 리스트가 너무 길어지지 않게 고정 */
     overflow-y: auto !important;
-    padding-right: 5px;
+    padding-right: 5px !important;
 }
 
-/* 창 너비가 좁아질 때 (모바일 혹은 PC 창 분할) */
-@media screen and (max-width: 800px) {
+/* 모바일 대응: 창이 작을 때 더 엄격하게 제한 */
+@media screen and (max-width: 768px) {
     .mt-panel {
-        margin-top: 50px !important; /* 좁은 화면에선 여백 살짝 조절 */
-        padding: 8px;
-    }
-
-    .mt-npc-list {
-        max-height: 40vh !important; /* 창이 작을 땐 리스트를 더 줄여서 상단이 안 밀리게 함 */
-    }
-
-    /* 입력창이 창 밖으로 나가지 않게 방지 */
-    .mt-input, .mt-select {
-        width: 100% !important;
-        max-width: 100%;
+        max-height: 70vh !important; /* 모바일은 화면의 70%만 사용 */
+        margin-top: 10px !important;
     }
 }
