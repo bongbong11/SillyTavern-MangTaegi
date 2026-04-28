@@ -1,6 +1,6 @@
 // 경로를 ../../ 로 수정했습니다.
 import { getContext, extension_settings, renderExtensionTemplateAsync } from '../../extensions.js';
-import { eventSource, event_types } from '../../../script.js';
+import { eventSource, event_types } from '../../script.js';
 
 const EXT_NAME = 'SillyTavern-MangTaegi';
 const EXT_ID = 'mangtaegi';
