@@ -174,39 +174,50 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* 재미나이 패널 본체: 기준점을 상단에 고정 */
+/* 재미나이 부모 컨테이너가 중앙 정렬을 시도하지 못하도록 강제 조정 */
 .mt-panel {
     display: flex !important;
     flex-direction: column !important;
-    gap: 10px !important;
-    padding: 12px !important;
+    padding: 15px !important;
     color: var(--SmartThemeBodyColor);
     box-sizing: border-box !important;
 
-    /* 핵심: 중앙 정렬을 해제하고 위에서부터 시작하게 함 */
+    /* 핵심: 중앙에서 위로 솟구치는 걸 방지 */
     position: relative !important;
-    top: 0 !important; 
-    margin-top: 20px !important; /* 상단바와의 최소 간격 */
+    top: 0 !important;
+    /* transform이 중앙 정렬을 강제하고 있을 확률이 높으므로 초기화 후 아래로 밀기 */
+    transform: translateY(10%) !important; 
     
-    /* 패널 자체가 화면 높이를 넘지 않게 설정 */
-    max-height: 80vh !important; 
-    overflow-y: auto !important; /* 패널 전체에 스크롤 생성 */
+    /* 패널의 최대 높이를 화면에 맞게 강제 제한 */
+    max-height: 75vh !important; 
+    width: 90vw !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+    
+    /* 패널 내부 전체 스크롤 활성화 */
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    
+    background: var(--SmartThemeBgColor) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
 }
 
-/* NPC 리스트 영역: 패널 안에서 또 한 번 높이 제한 */
+/* NPC 리스트 영역을 더 타이트하게 잡아서 전체 크기 축소 */
 .mt-npc-list {
     display: flex !important;
     flex-direction: column !important;
     gap: 8px !important;
-    max-height: 300px !important; /* 리스트가 너무 길어지지 않게 고정 */
+    /* 리스트가 조금만 길어져도 바로 스크롤이 생기게 함 */
+    max-height: 250px !important; 
     overflow-y: auto !important;
     padding-right: 5px !important;
 }
 
-/* 모바일 대응: 창이 작을 때 더 엄격하게 제한 */
+/* 모바일 전용: 상단바(URL창) 여백을 고려해 더 아래로 내림 */
 @media screen and (max-width: 768px) {
     .mt-panel {
-        max-height: 70vh !important; /* 모바일은 화면의 70%만 사용 */
-        margin-top: 10px !important;
+        transform: translateY(15%) !important; /* 모바일에서 더 아래로 배치 */
+        max-height: 65vh !important; /* 모바일은 화면이 작으므로 더 엄격하게 제한 */
     }
 }
