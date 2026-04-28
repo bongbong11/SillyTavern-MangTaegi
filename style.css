@@ -174,42 +174,46 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* 재미나이 추가 기존 .mt-panel 설정을 덮어씌워 유연하게 변경 */
+/* 패널 본체: 어떤 상황에서도 상단 여백 60px를 사수함 */
 .mt-panel {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 10px; /* 패딩을 살짝 늘려 터치 영역 확보 */
+    padding: 10px;
     color: var(--SmartThemeBodyColor);
     box-sizing: border-box;
+    
+    /* 핵심 수정: 상단 여백 확보 방식 변경 */
+    margin-top: 60px !important; 
+    position: static !important; /* 부모 요소의 흐름을 따르되 마진으로 밀기 */
 }
 
-/* 모바일 전용 대응 (화면 가로가 768px 이하일 때) */
-@media screen and (max-width: 768px) {
-    /* 전체 패널의 상단 여백과 최대 높이 조절 */
+/* 리스트 영역: 창 크기에 맞춰 유연하게 변함 */
+.mt-npc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* 핵심 수정: 고정 px 대신 vh를 써서 창이 작아지면 같이 작아지게 함 */
+    max-height: 50vh !important; 
+    min-height: 100px;
+    overflow-y: auto !important;
+    padding-right: 5px;
+}
+
+/* 창 너비가 좁아질 때 (모바일 혹은 PC 창 분할) */
+@media screen and (max-width: 800px) {
     .mt-panel {
-        margin-top: 50px !important; /* 실리태번 상단바 공간 확보 */
-        padding-top: 15px !important;
-        max-height: 85vh !important; /* 화면 전체를 다 쓰지 않도록 제한 */
-        overflow-y: hidden; /* 패널 자체는 고정 */
+        margin-top: 50px !important; /* 좁은 화면에선 여백 살짝 조절 */
+        padding: 8px;
     }
 
-    /* 리스트 영역을 더 짧게 조절하여 스크롤 유도 */
     .mt-npc-list {
-        max-height: 45vh !important; /* 모바일에서는 리스트를 더 짧게 */
-        -webkit-overflow-scrolling: touch; /* iOS 등에서 부드러운 스크롤 */
+        max-height: 40vh !important; /* 창이 작을 땐 리스트를 더 줄여서 상단이 안 밀리게 함 */
     }
 
-    /* 입력창이나 버튼이 너무 작지 않게 조절 */
-    .mt-input, .mt-select, .mt-btn-save, .mt-btn-scan {
-        min-height: 40px; /* 손가락 터치하기 편한 최소 높이 */
-        font-size: 16px !important; /* 모바일 자동 줌 방지 */
-    }
-}
-
-/* 토스트 메시지 위치 조절 (모바일 자판에 가리지 않게) */
-@media screen and (max-width: 768px) {
-    #mt-toast {
-        bottom: 120px; /* 자판이나 하단바 위로 올림 */
+    /* 입력창이 창 밖으로 나가지 않게 방지 */
+    .mt-input, .mt-select {
+        width: 100% !important;
+        max-width: 100%;
     }
 }
