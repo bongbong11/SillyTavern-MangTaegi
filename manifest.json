@@ -1,0 +1,10 @@
+{
+    "display_name": "당신의 망태기",
+    "name": "당신의망태기",
+    "version": "1.0.0",
+    "description": "롤플 중 등장하는 NPC를 자동 수집하고 프로필을 생성합니다.",
+    "js": "index.js",
+    "css": "style.css",
+    "author": "봉봉",
+    "homepage": ""
+}
