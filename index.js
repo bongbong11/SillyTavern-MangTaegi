@@ -119,4 +119,4 @@ function renderNPCList() {
             </div>
         `;
     }).join('');
-}
+
