@@ -1,8 +1,8 @@
-// 당신의 망태기 v1.1 - 경로 및 함수 에러 수정본
 import { getContext, extension_settings, saveSettings, renderExtensionTemplateAsync } from '../../../extensions.js';
 import { eventSource, event_types, saveChat } from '../../../../script.js';
 
 const EXT_NAME = '당신의망태기';
+const EXT_PATH = '/extensions/SillyTavern-MangTaegi/';
 
 function init() {
     if (!extension_settings[EXT_NAME]) {
@@ -10,7 +10,7 @@ function init() {
     }
     addPanelButton();
     injectPanel();
-    console.log('[망태기] 구동 시작!');
+    console.log('[망태기] 정상 구동됨');
 }
 
 function addPanelButton() {
@@ -28,12 +28,12 @@ function injectPanel() {
     if (document.getElementById('mangtaegi-panel')) return;
     const html = `
     <div id="mangtaegi-panel" class="mb-panel" style="display:none; position:fixed; right:20px; top:60px; width:320px; height:500px; background:#fff; z-index:10000; border:2px solid #c17f5a; border-radius:15px; padding:15px; color:#333; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
-        <div style="display:flex; justify-content:space-between;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
             <h3 style="margin:0;">📦 당신의 망태기</h3>
             <span id="mb-close" style="cursor:pointer; font-size:24px;">&times;</span>
         </div>
         <hr>
-        <div id="mb-content">정상적으로 로드되었습니다!</div>
+        <div id="mb-content">확장이 로드되었습니다!</div>
     </div>`;
     document.body.insertAdjacentHTML('beforeend', html);
     const style = document.createElement('style');
