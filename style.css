@@ -1,74 +1,27 @@
-:root {
-    --mt-accent: #c17f5a;
-    --mt-bg: #faf9f7;
-    --mt-text: #2c2825;
-}
-
 #mt-main-panel {
-    font-family: 'DM Sans', 'Gowun Dodum', sans-serif;
     position: fixed;
     top: 60px;
     right: -400px;
     width: 350px;
     height: 80vh;
-    background: var(--mt-bg);
+    background: #faf9f7;
     z-index: 3000;
-    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: right 0.3s ease;
     border-radius: 12px 0 0 12px;
     box-shadow: -4px 0 15px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
+    color: #2c2825;
+    font-family: sans-serif;
 }
 
-#mt-main-panel.show {
-    right: 0;
-}
+#mt-main-panel.show { right: 0; }
 
-.mt-header {
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.mt-tabs {
-    display: flex;
-    padding: 10px;
-    background: rgba(0,0,0,0.02);
-}
-
-.mt-tab {
-    flex: 1;
-    padding: 8px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 13px;
-    border-radius: 6px;
-}
-
-.mt-tab.active {
-    background: var(--mt-accent);
-    color: white;
-}
-
+.mt-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+.mt-tabs { display: flex; padding: 10px; background: #f4f2ef; }
+.mt-tab { flex: 1; padding: 8px; text-align: center; cursor: pointer; border-radius: 6px; font-size: 13px; }
+.mt-tab.active { background: #c17f5a; color: white; }
 .mt-tab-content { display: none; padding: 20px; }
 .mt-tab-content.active { display: block; }
-
-.mt-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-}
-
-.mt-btn-primary {
-    width: 100%;
-    padding: 12px;
-    background: var(--mt-accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
+.mt-input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
+.mt-btn-primary { width: 100%; padding: 12px; background: #c17f5a; color: white; border: none; border-radius: 8px; cursor: pointer; }
