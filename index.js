@@ -25,7 +25,7 @@ async function init() {
     bindEvents(document.body);
     bindExtensionEvents(container);
 
-    console.log('[MangTaegi] Initialized');
+    console.log('[MangTaegi] Loaded successfully');
 }
 
 function addPanelButton() {
@@ -33,7 +33,7 @@ function addPanelButton() {
     const btn = document.createElement('div');
     btn.id = 'mt-sidebar-btn';
     btn.className = 'fa-solid fa-box-archive system_button';
-    btn.title = 'MangTaegi';
+    btn.title = '당신의 망태기';
     const sidebar = document.getElementById('external_links_view') || document.querySelector('.side-buttons');
     if (sidebar) sidebar.appendChild(btn);
     btn.addEventListener('click', () => {
@@ -55,11 +55,11 @@ function injectPanel() {
                 <div class="mt-tab" data-tab="settings">설정</div>
             </div>
             <div id="mt-content-list" class="mt-tab-content active">
-                <div class="mt-empty">데이터 로드 중...</div>
+                <div class="mt-empty">데이터를 불러오는 중...</div>
             </div>
             <div id="mt-content-settings" class="mt-tab-content">
                 <input type="password" id="mt-api-key" class="mt-input" placeholder="API Key 입력">
-                <button id="mt-save-settings" class="mt-btn-primary">저장</button>
+                <button id="mt-save-settings" class="mt-btn-primary">설정 저장</button>
             </div>
         </div>
     </div>`;
@@ -76,24 +76,27 @@ function bindEvents(parent) {
             const target = e.target.dataset.tab;
             parent.querySelectorAll('.mt-tab, .mt-tab-content').forEach(el => el.classList.remove('active'));
             e.target.classList.add('active');
-            // 에러 방지를 위해 문자열 결합 방식으로 수정
-            const contentId = 'mt-content-' + target;
-            parent.querySelector('#' + contentId)?.classList.add('active');
+            
+            // 안전한 문자열 결합 방식으로 수정하여 SyntaxError 방지
+            const contentElement = document.getElementById('mt-content-' + target);
+            if (contentElement) contentElement.classList.add('active');
         });
     });
 
     parent.querySelector('#mt-save-settings')?.addEventListener('click', () => {
         settings.apiKey = parent.querySelector('#mt-api-key').value;
         saveSettingsDebounced();
-        alert('저장됨');
+        alert('설정이 저장되었습니다.');
     });
 }
 
 function bindExtensionEvents(container) {
     container.querySelector('#mt-quick-save')?.addEventListener('click', () => {
         const val = container.querySelector('#mt-quick-input').value;
-        if (val) container.querySelector('#mt-quick-log').innerText = val + ' 완료';
+        if (val) container.querySelector('#mt-quick-log').innerText = val + ' 저장됨';
     });
 }
 
-$(document).ready(() => init().catch(console.error));
+$(document).ready(() => {
+    init().catch(err => console.error('[MangTaegi] Init Error:', err));
+});
