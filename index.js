@@ -101,8 +101,8 @@ function openMainPanel() {
 
     const panel = $(`
     <div id="mt-main-panel" style="
-        position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-        width:360px; max-height:85vh; display:flex; flex-direction:column;
+    position:fixed; top:60px; left:50%; transform:translateX(-50%); /* 수정: top 고정 및 translate 조절 */
+    width:360px; max-height:calc(100vh - 100px); display:flex; flex-direction:column; /* 수정: 화면 높이에 맞춰 자동 조절 */
         background:var(--SmartThemeBlurTintColor, #1e1e2e);
         border:1px solid var(--SmartThemeBorderColor, #555);
         border-radius:14px; z-index:10000;
