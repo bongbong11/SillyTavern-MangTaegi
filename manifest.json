@@ -4,6 +4,6 @@
     "version": "1.1.0",
     "description": "NPC 데이터를 자동으로 수집하고 프로필을 생성합니다.",
     "author": "bongbong11",
-    "js": "index.js"
+    "js": "index.js",
     "source": "https://github.com/bongbong11/SillyTavern-MangTaegi"
 }
