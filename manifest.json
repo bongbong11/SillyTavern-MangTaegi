@@ -1,10 +1,5 @@
 {
     "display_name": "MangTaegi",
-    "name": "SillyTavern-MangTaegi",
-    "version": "1.2.0",
-    "description": "NPC auto collection extension",
-    "js": "index.js",
-    "css": "style.css",
-    "author": "bongbong",
-    "homepage": "https://github.com/bongbong11/SillyTavern-MangTaegi"
+    "name": "MangTaegi",
+    ...
 }
