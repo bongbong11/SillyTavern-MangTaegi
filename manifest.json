@@ -1,11 +1,9 @@
 {
-    "display_name": "당신의 망태기",
-    "name": "SillyTavern-MangTaegi",
-    "version": "1.2.0",
-    "description": "롤플 중 NPC를 자동 수집하고 프로필을 생성합니다.",
-    "js": "index.js",
-    "css": "style.css",
-    "author": "bongbong11",
-    "homepage": "https://github.com/bongbong11/SillyTavern-MangTaegi",
-    "loading_order": 10
+  "name": "Knowledge Vault",
+  "display_name": "지식창고 (Knowledge Vault)",
+  "version": "1.0.1",
+  "author": "봉봉",
+  "description": "캐릭터 인지 단계별 지식 관리 시스템. 채팅방마다 독립적으로 관리됩니다.",
+  "requires": [],
+  "js": "index.js"
 }
