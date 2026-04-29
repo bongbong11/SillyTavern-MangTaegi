@@ -778,22 +778,20 @@ async function callWithProfile(prompt) {
     const profileId = settings.profileId;
 
     if (profileId && ctx.ConnectionManagerRequestService) {
-        const response = await const profiles = extension_settings.connectionManager?.profiles || [];
-const profile = profiles.find(p => p.id === profileId);
-const profileName = profile?.name || profileId;
-ctx.ConnectionManagerRequestService.sendRequest(
-    profileName,
+        const profiles = extension_settings.connectionManager?.profiles || [];
+        const profile = profiles.find(p => p.id === profileId);
+        const profileName = profile?.name || profileId;
+        const response = await ctx.ConnectionManagerRequestService.sendRequest(
+            profileName,
             [{ role: 'user', content: prompt }],
             2000
         );
         return typeof response === 'string' ? response : (response?.content || response?.choices?.[0]?.message?.content || '');
     }
 
-    // fallback: 현재 연결 모델로 호출
     const result = await ctx.generateRaw(prompt, '', true, true);
     return result || '';
 }
-
 // ─── 프롬프트 빌더 ───────────────────────────────────────────
 function buildPrompt(text, charName, userName, lang, theme, isSheet=false) {
     const isKo = lang === 'ko';
