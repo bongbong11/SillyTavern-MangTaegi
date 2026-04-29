@@ -778,8 +778,11 @@ async function callWithProfile(prompt) {
     const profileId = settings.profileId;
 
     if (profileId && ctx.ConnectionManagerRequestService) {
-        const response = await ctx.ConnectionManagerRequestService.sendRequest(
-            profileId,
+        const response = await const profiles = extension_settings.connectionManager?.profiles || [];
+const profile = profiles.find(p => p.id === profileId);
+const profileName = profile?.name || profileId;
+ctx.ConnectionManagerRequestService.sendRequest(
+    profileName,
             [{ role: 'user', content: prompt }],
             2000
         );
