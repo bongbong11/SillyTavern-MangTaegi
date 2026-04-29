@@ -397,7 +397,7 @@ function openCreatePopup() {
         try {
             const ctx = getContext();
             const prompt = buildCreatePrompt(name, age, occ, cat, settings.outputLanguage, settings.theme);
-            const result = await ctx.generateRaw(prompt, null, false, false, '', 0);
+            const result = await ctx.generateRaw(prompt, '', true, true);
             const match = result.match(/\{[\s\S]*?\}/);
             if (!match) throw new Error('생성 실패');
 
@@ -457,7 +457,7 @@ async function collectFromLastMessage() {
         const userName = ctx.name1 || 'user';
         const text = recent.map(m => `${m.name||(m.is_user?userName:charName)}: ${m.mes}`).join('\n');
 
-        const result = await ctx.generateRaw(buildPrompt(text, charName, userName, settings.outputLanguage, settings.theme), null, false, false, '', 0);
+        const result = await ctx.generateRaw(buildPrompt(text, charName, userName, settings.outputLanguage, settings.theme), '', true, true);
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
@@ -489,7 +489,7 @@ async function scanAll() {
             `${m.name||(m.is_user?userName:charName)}: ${m.mes}`
         ).join('\n');
 
-        const result = await ctx.generateRaw(buildPrompt(chatText, charName, userName, settings.outputLanguage, settings.theme), null, false, false, '', 0);
+        const result = await ctx.generateRaw(buildPrompt(chatText, charName, userName, settings.outputLanguage, settings.theme), '', true, true);
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
