@@ -10,6 +10,7 @@ const THEMES = ['자동감지', '현대 (한국)', '현대 (해외)', '판타지
 const defaultSettings = {
     outputLanguage: 'ko',
     theme: '자동감지',
+    profileId: '',
     nameBlacklist: ['Miller', 'Smith', 'Johnson', 'Chloe', 'Emma', 'Liam', 'Noah'],
     colors: { both: '#e8a87c', char: '#7cc4a8', user: '#7ca8e8', unknown: '#888888' },
     npcData: {},
@@ -54,16 +55,25 @@ function injectSettingsPanel() {
             </div>
             <div class="inline-drawer-content" style="padding:12px;display:flex;flex-direction:column;gap:10px;">
                 <div>
-                    <label style="font-size:0.8em;color:#aaa;display:block;margin-bottom:5px;">기본 언어</label>
-                    <select id="mt-lang-select" class="text_node" style="width:100%;box-sizing:border-box;">
-                        <option value="ko" ${settings.outputLanguage==='ko'?'selected':''}>한국어</option>
-                        <option value="en" ${settings.outputLanguage==='en'?'selected':''}>English</option>
+                    <label style="font-size:0.8em;color:#aaa;display:block;margin-bottom:5px;">연결 프로필</label>
+                    <select id="mt-profile-select" class="text_node" style="width:100%;box-sizing:border-box;">
+                        <option value="">-- 프로필 선택 --</option>
+                        ${(extension_settings.connectionManager?.profiles||[]).map(p=>
+                            `<option value="${p.id}" ${settings.profileId===p.id?'selected':''}>${p.name}</option>`
+                        ).join('')}
                     </select>
                 </div>
                 <div>
                     <label style="font-size:0.8em;color:#aaa;display:block;margin-bottom:5px;">세계관 테마</label>
                     <select id="mt-theme-select" class="text_node" style="width:100%;box-sizing:border-box;">
                         ${THEMES.map(t=>`<option value="${t}" ${settings.theme===t?'selected':''}>${t}</option>`).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:0.8em;color:#aaa;display:block;margin-bottom:5px;">프로필 표시 언어</label>
+                    <select id="mt-lang-select" class="text_node" style="width:100%;box-sizing:border-box;">
+                        <option value="ko" ${settings.outputLanguage==='ko'?'selected':''}>한국어</option>
+                        <option value="en" ${settings.outputLanguage==='en'?'selected':''}>English</option>
                     </select>
                 </div>
                 <div>
@@ -104,6 +114,7 @@ function injectSettingsPanel() {
     $('#extensions_settings').append(panel);
 
     panel.on('click', '#mt-settings-save', () => {
+        settings.profileId = $('#mt-profile-select').val();
         settings.outputLanguage = $('#mt-lang-select').val();
         settings.theme = $('#mt-theme-select').val();
         settings.nameBlacklist = $('#mt-blacklist').val().split(',').map(s=>s.trim()).filter(Boolean);
@@ -187,7 +198,7 @@ async function collectFromRecent() {
         const userName = ctx.name1 || 'user';
         const text = recent.map(m => `${m.name||(m.is_user?userName:charName)}: ${m.mes}`).join('\n');
 
-        const result = await ctx.generateRaw(buildPrompt(text, charName, userName, settings.outputLanguage, settings.theme), '', true, true);
+        const result = await callWithProfile(buildPrompt(text, charName, userName, settings.outputLanguage, settings.theme));
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
@@ -242,7 +253,7 @@ async function collectFromSheets() {
 
         const combinedText = sources.join('\n\n');
         const prompt = buildPrompt(combinedText, charName, userName, settings.outputLanguage, settings.theme, true);
-        const result = await ctx.generateRaw(prompt, '', true, true);
+        const result = await callWithProfile(prompt);
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
@@ -617,7 +628,7 @@ async function createNPC(isRandom) {
     try {
         const ctx = getContext();
         const prompt = buildCreatePrompt(name, age, gender, occ, memo, cat, settings.outputLanguage, settings.theme, isRandom);
-        const result = await ctx.generateRaw(prompt, '', true, true);
+        const result = await callWithProfile(prompt);
         const match = result.match(/\{[\s\S]*?\}/);
         if (!match) throw new Error('생성 실패');
 
@@ -662,7 +673,7 @@ async function scanAll() {
         const userName = ctx.name1 || 'user';
         const chatText = ctx.chat.slice(-60).map(m => `${m.name||(m.is_user?userName:charName)}: ${m.mes}`).join('\n');
 
-        const result = await ctx.generateRaw(buildPrompt(chatText, charName, userName, settings.outputLanguage, settings.theme), '', true, true);
+        const result = await callWithProfile(buildPrompt(chatText, charName, userName, settings.outputLanguage, settings.theme));
         const match = result.match(/\[[\s\S]*?\]/);
         if (!match) { showToast('NPC를 찾지 못했어요'); return; }
 
@@ -759,6 +770,25 @@ function updateLegend() {
     Object.entries(settings.colors).forEach(([rel, color]) => {
         $(`#mt-legend .mt-legend-item[data-rel="${rel}"] .mt-legend-dot`).css('background', color);
     });
+}
+
+// ─── 프로필로 API 호출 ───────────────────────────────────────
+async function callWithProfile(prompt) {
+    const ctx = getContext();
+    const profileId = settings.profileId;
+
+    if (profileId && ctx.ConnectionManagerRequestService) {
+        const response = await ctx.ConnectionManagerRequestService.sendRequest(
+            profileId,
+            [{ role: 'user', content: prompt }],
+            2000
+        );
+        return typeof response === 'string' ? response : (response?.content || response?.choices?.[0]?.message?.content || '');
+    }
+
+    // fallback: 현재 연결 모델로 호출
+    const result = await ctx.generateRaw(prompt, '', true, true);
+    return result || '';
 }
 
 // ─── 프롬프트 빌더 ───────────────────────────────────────────
