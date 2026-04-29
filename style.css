@@ -1,11 +1,13 @@
 <style>
         #mt-main-panel {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(520px, 96vw);
-            height: min(680px, 90vh);
+    position: fixed;
+    top: max(10px, 5vh);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(520px, 96vw);
+    height: min(680px, 88vh);
+    ...
+}
             display: flex;
             flex-direction: column;
             z-index: 10000;
